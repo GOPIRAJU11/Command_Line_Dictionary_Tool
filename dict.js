@@ -164,6 +164,7 @@ function permutations(str){
 
 var playgame = () => {
 	var game_word;
+	var game_word_synonyms;
 	var game_word_definitions = new Array();
 	var hint = [];
 	randomWord((data) => {
@@ -187,7 +188,7 @@ var playgame = () => {
 		//user can guess synonyms also
       synonyms(game_word, (data) => 
 	  {
-      	var game_word_synonyms;
+      	
         var hasSynonyms = false;
         if(data.length >= 1){
         	hasSynonyms = true;
@@ -277,7 +278,17 @@ var playgame = () => {
                 console.log('Hint:');
 				var randomNumber = Math.floor((Math.random() * hint.length));
                 console.log(hint[randomNumber].type+"   :  "+hint[randomNumber].value);
-				hint.splice(randomNumber-1,1);
+			    	if(hint[randomNumber].type=='synonym')
+				{
+					for(var index in game_word_synonyms)
+						{
+							if(hint[randomNumber].value==game_word_synonyms[index])
+								{
+									game_word_synonyms.splice(index,1);
+								}
+						}
+				}
+				hint.splice(randomNumber,1);
 				//console.log("hintlength",hint.length);
 				if(hint.length==0){
 					var ana = permutations(game_word);
