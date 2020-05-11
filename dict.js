@@ -149,6 +149,18 @@ var printGameRetryText = () => {
   console.log('\t2. Hint');
   console.log('\t3. Skip');
 };
+function permutations(str){
+  if (str.length === 1)
+      return str;
+  var permut = [];
+  for (var i=0; i<str.length; i++){
+      var s = str[0];
+      var _new =  permutations(str.slice(1, str.length));
+      for(var j=0; j<_new.length; j++)
+          permut.push(s + _new[j]);
+      str = str.substr(1, str.length -1) + s;
+  }
+  return permut; }
 
 var playgame = () => {
 	var game_word;
