@@ -46,3 +46,11 @@ var printDefinitions = (word) => {
     }
   });
 };
+var synonyms = (word, callback) => {
+  var url = '';
+  api = word+'/relatedWords?api_key='+api_key;
+  url = wordapi + api;
+  apiRequest(url, (data) => {
+    callback(data);
+  });
+};
