@@ -67,4 +67,14 @@ var printSynonyms = (word) => {
     }
   });
 };
+var antonyms = (word, callback) => {
+  var url = '';
+  api = word+'/relatedWords?api_key='+api_key;
+  url = wordapi + api;
+  apiRequest(url, (data) => {
+//console.log("antonyms "+data[0]);
+    callback(data);
+
+  });
+}
 
