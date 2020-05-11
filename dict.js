@@ -108,3 +108,10 @@ var examples = (word) => {
     }
   });
 }
+var dictionary = (word) => {
+  printDefinitions(word);
+  printSynonyms(word);
+  printAntonyms(word);
+  examples(word);
+};
+
