@@ -26,3 +26,11 @@ var apiRequest = (url, callback) => {
     console.error(err);
   });
 };
+var definitions = (word, callback) => {
+  var url = '';
+  api = word+'/definitions?api_key='+api_key;
+  url = wordapi + api;
+  apiRequest(url, (data) => {
+    callback(data);
+  });
+};
