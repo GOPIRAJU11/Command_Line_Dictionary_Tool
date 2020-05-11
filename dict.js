@@ -163,8 +163,8 @@ var playgame = () => {
         console.log('\x1b[31m Error occured in the process.\nProcess will exit now. \x1b[0m');
         process.exit();
       }
-		
-	synonyms(game_word, (data) => 
+		//user can guess synonyms also
+      synonyms(game_word, (data) => 
 	  {
       	var game_word_synonyms;
         var hasSynonyms = false;
@@ -192,7 +192,101 @@ var playgame = () => {
          //console.log('synonyms : '+game_word_synonyms);
  
       }
-	};
-		    };
-		    };
+      const rl = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout
+      });
+      console.log('Press "Ctrl + C" to exit the program.');
+      console.log('Find the word with the following definition');
+      console.log('Definition :\n\t'+game_word_definitions[0]);
+	  console.log('\x1b[93m Your score is "'+score+'": \x1b[0m');
+      console.log('Type the word and press the ENTER key.');
+      rl.on('line', (input) => {
+          var correctAnswer = false;
+          if(hasSynonyms){
+            	for(var index in game_word_synonyms){
+              		if(`${input}` == game_word_synonyms[index]){
+                		console.log('Congratulations! You have entered correct synonym for the word "'+game_word+'"');
+                		rl.close();
+                		correctAnswer = true;
+						score=score+10;
+						console.log('\x1b[93m Your score is "'+score+'": \x1b[0m');
+              		}
+            	}
+          }
+          if(`${input}` === game_word){
+          	console.log('Congratulations! You have entered correct word.');
+			score=score+10;
+			console.log('\x1b[93m Your score is "'+score+'": \x1b[0m');
+            rl.close();
+          }
+		  else
+		  {
+           	if(`${input}` == '3'){
+             	rl.close();
+            }
+            if(!(`${input}` == '1' || `${input}` == '2' || `${input}` == '3') && !correctAnswer){
+              	printGameRetryText();
+            }
+            switch(parseInt(`${input}`)){
+              case 1:
+                console.log('Please try to guess the word again:');
+				if(score-2>=0)
+				{
+					score=score-2;
+				}
+				else{
+					score=0;
+				}
+				console.log('\x1b[93m Your score is "'+score+'": \x1b[0m');
+              	break;
+              case 2:
+              	var randomNumber = Math.floor((Math.random() * parseInt(game_word_definitions.length)) + 1);
+                //console.log('Random Number : ' + randomNumber);
+                if(randomNumber == game_word_definitions.length){
+                  randomNumber = game_word_definitions.length - 1;
+                }
+				if(score-3>=0)
+				{
+					score=score-3;
+				}
+				else{
+					score=0;
+				}
+                console.log('Hint:');
+				var randomNumber = Math.floor((Math.random() * hint.length));
+                console.log(hint[randomNumber].type+"   :  "+hint[randomNumber].value);
+				hint.splice(randomNumber-1,1);
+				//console.log("hintlength",hint.length);
+				if(hint.length==0){
+					var ana = permutations(game_word);
+					for (var index in ana){
+						hint.push({type:"jumbled",value:ana[index]});
+					}
+				}
+                console.log('\nTry to guess the word again using the hint provided.');
+				console.log('\x1b[93m Your score is "'+score+'": \x1b[0m');
+                console.log('Enter the word:');
+              break;
+              case 3:
+                console.log('The correct word is : ' + game_word);
+                console.log('Thank you for trying out this game. \nGame Ended.');
+				if(score-4>=0)
+				{
+					score=score-4;
+				}
+				else{
+					score=0;
+				}
+				console.log('\x1b[93m Your score is "'+score+'": \x1b[0m');
+                rl.close();
+              break;
+              default:
+            }
+          }
+        });
+      });
+    });
+  });
+};
 		 
