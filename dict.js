@@ -34,3 +34,15 @@ var definitions = (word, callback) => {
     callback(data);
   });
 };
+var printDefinitions = (word) => {
+  definitions(word, (data) => {
+    if(data.length >= 1){
+      console.log('\x1b[93m The definitions for the word "'+word+'": \x1b[0m');
+      for(var index in data){
+        console.log((parseInt(index)+1) +  '\t' + data[index].text);
+      }
+    }else{
+      console.log('\x1b[31m No definitions found for the word "'+word+'" \x1b[0m');
+    }
+  });
+};
