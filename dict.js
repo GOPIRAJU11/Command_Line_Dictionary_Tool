@@ -163,6 +163,35 @@ var playgame = () => {
         console.log('\x1b[31m Error occured in the process.\nProcess will exit now. \x1b[0m');
         process.exit();
       }
+		
+	synonyms(game_word, (data) => 
+	  {
+      	var game_word_synonyms;
+        var hasSynonyms = false;
+        if(data.length >= 1){
+        	hasSynonyms = true;
+            game_word_synonyms = data[0].words;
+ 			//console.log(data[0]);
+ 
+		for (var index in data[0].words)
+		{
+			var temp = data[0].relationshipType;
+			hint.push({type:[temp],value:data[0].words[index]});
+		}
+		if(data.length==2)
+		{
+			for (var index in data[1].words)
+			{
+				var temp = data[1].relationshipType;
+				hint.push({type:[temp],value:data[1].words[index]});
+			}
+
+		}
+ 		//console.log(hint);
+         //console.log('The Length of synonyms: ' + game_word_synonyms.length);
+         //console.log('synonyms : '+game_word_synonyms);
+ 
+      }
 	};
 		    };
 		    };
