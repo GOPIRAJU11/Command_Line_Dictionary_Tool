@@ -308,4 +308,50 @@ var printHelp = () => {
   console.log('\t6.dict <word>');
   console.log('\t7.dict play');
 };
-		 
+var startDictionary = () => {
+  if(userargslength == 0){
+    wordOftheDay((data) => {
+      console.log('\x1b[93m Word of the Day - Dictionary: \x1b[0m');
+      dictionary(data.word);
+    });
+  }else if(userargslength == 1){
+    var word = userargs[0];
+    switch(word){
+      case 'play':
+        playgame();
+        break;
+        case 'help':
+        printHelp();
+        break;
+      default:
+        console.log('\x1b[93m The dictionary for the word "'+word+'": \x1b[0m');
+        dictionary(word);
+    }
+  }else if(userargslength == 2){
+    var word = userargs[1];
+    var url = '';
+    switch(userargs[0]) {
+        case 'def':
+          printDefinitions(word);
+          break;
+        case 'syn':
+          printSynonyms(word);
+          break;
+        case 'ant':
+          printAntonyms(word);
+          break;
+        case 'ex':
+          examples(word);
+          break;
+        case 'dict':
+          console.log('\x1b[93m The dictionary for the word "'+word+'": \x1b[0m');
+          dictionary(word);
+          break;
+        default:
+          printHelp();
+    }
+  }else{
+    printHelp();
+  }
+};
+startDictionary();		 
