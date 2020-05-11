@@ -298,4 +298,14 @@ var playgame = () => {
     });
   });
 };
+var printHelp = () => {
+  console.log('The possible commands are:');
+  console.log('\t1.dict def <word>');
+  console.log('\t2.dict syn <word>');
+  console.log('\t3.dict ant <word>');
+  console.log('\t4.dict ex <word>');
+  console.log('\t5.dict dict <word>');
+  console.log('\t6.dict <word>');
+  console.log('\t7.dict play');
+};
 		 
