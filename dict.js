@@ -77,4 +77,18 @@ var antonyms = (word, callback) => {
 
   });
 }
-
+var printAntonyms = (word) => {
+  antonyms(word, (data) => {
+    if(data.length == 2){
+      var words1 = data[0].words;
+ //console.log(data.length);
+ //console.log(data[0]);
+      console.log('\x1b[93m The antonyms for the word "'+word+'": \x1b[0m');
+      for(var index in words1){
+        console.log((parseInt(index)+1) + '\t' +words1[index]);
+      }
+    }else{
+      console.log('\x1b[31m No antonyms found for the word "'+word+'" \x1b[0m');
+    }
+  });
+};
