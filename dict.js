@@ -114,4 +114,19 @@ var dictionary = (word) => {
   printAntonyms(word);
   examples(word);
 };
+var isEmpty = (obj) => {
+    return Object.keys(obj).length === 0;
+};
+var wordOftheDay = (callback) => {
+  var url = '';
+  api = 'randomWord?api_key='+api_key;
+  url = wordsapi + api;
+  apiRequest(url, (data) => {
+    if(!isEmpty(data)){
+      callback(data);
+    }else{
+      console.log('\x1b[31m Sorry, unable to fetch the word of the day \x1b[0m');
+    }
+  });
+};
 
