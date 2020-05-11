@@ -92,3 +92,19 @@ var printAntonyms = (word) => {
     }
   });
 };
+var examples = (word) => {
+  var url = '';
+  api = word+'/examples?api_key='+api_key;
+  url = wordapi + api;
+  apiRequest(url, (data) => {
+    if(!isEmpty(data)){
+      var example_sentences = data.examples;
+      console.log('\x1b[93m Example usages for the word "'+word+'": \x1b[0m');
+      for(var index in example_sentences){
+        console.log((parseInt(index)+1) +'\t'+ example_sentences[index].text);
+      }
+    }else{
+      console.log('\x1b[31m No examples found for the word "'+word+'" \x1b[0m');
+    }
+  });
+}
