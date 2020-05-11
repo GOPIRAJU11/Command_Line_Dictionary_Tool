@@ -54,3 +54,17 @@ var synonyms = (word, callback) => {
     callback(data);
   });
 };
+var printSynonyms = (word) => {
+  synonyms(word, (data) => {
+    if(data.length == 1){
+      var words = data[0].words;
+      console.log('\x1b[93m The synonyms for the word "'+word+'": \x1b[0m');
+      for(var index in words){
+        console.log((parseInt(index)+1) + '\t' +words[index]);
+      }
+    }else{
+      console.log('\x1b[31m No synonyms found for the word "'+word+'" \x1b[0m');
+    }
+  });
+};
+
