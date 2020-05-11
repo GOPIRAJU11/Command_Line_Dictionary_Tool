@@ -141,3 +141,29 @@ var randomWord = (callback) => {
     }
   });
 };
+var playgame = () => {
+	var game_word;
+	var game_word_definitions = new Array();
+	var hint = [];
+	randomWord((data) => {
+   // console.log('Random Word is: ' + data.word);
+    	game_word = data.word.replace(" ", "%20");
+    //console.log('Game Word: ' + game_word);
+    	definitions(game_word, (data) => {
+      	if(data.length >= 1){
+        for(var index in data)
+		{
+            game_word_definitions[index] =  data[index].text;
+ 			hint.push({type:'definition',value:data[index].text})
+        }
+        //console.log('Length of definition array : ' + game_word_definitions.length);
+      }
+	  else
+	  {
+        console.log('\x1b[31m Error occured in the process.\nProcess will exit now. \x1b[0m');
+        process.exit();
+      }
+	};
+		    };
+		    };
+		 
