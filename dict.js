@@ -141,6 +141,15 @@ var randomWord = (callback) => {
     }
   });
 };
+var printGameRetryText = () => {
+  console.log('\x1b[93m Your score is "'+score+'": \x1b[0m');
+  console.log('\x1b[31m You have entered incorrect word.  \x1b[0m');
+  console.log('Choose the options from below menu:');
+  console.log('\t1. Try Again');
+  console.log('\t2. Hint');
+  console.log('\t3. Skip');
+};
+
 var playgame = () => {
 	var game_word;
 	var game_word_definitions = new Array();
