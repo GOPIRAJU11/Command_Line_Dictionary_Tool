@@ -7,9 +7,11 @@ function playgame() {
     var game_word_synonyms;
     var game_word_definitions = new Array();
     var hint = [];
-    ApiFunctions.randomWord((data) => {
+    ApiFunctions.randomWord().then((data) => {
+data = JSON.parse(data);
         game_word = data.word.replace(" ", "%20");
-        ApiFunctions.definitions(game_word, (data) => {
+        ApiFunctions.definitions(game_word).then( (data) => {
+data = JSON.parse(data);
             if (data.length >= 1) {
                 for (var index in data) {
                     game_word_definitions[index] = data[index].text;
@@ -22,8 +24,8 @@ function playgame() {
                 console.log('\x1b[31m Error occured in the process.\nProcess will exit now. \x1b[0m');
                 process.exit();
             }
-            ApiFunctions.synonyms(game_word, (data) => {
-
+            ApiFunctions.synonyms(game_word).then( (data) => {
+data = JSON.parse(data);
                 var hasSynonyms = false;
                 if (data.length >= 1) {
                     hasSynonyms = true;
