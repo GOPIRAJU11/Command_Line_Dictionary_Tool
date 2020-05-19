@@ -5,8 +5,9 @@ var allFunctions = require("./wordApi.js");
 var game = require("./wordGame.js");
 var startDictionary = () => {
     if (userArgslength == 0) {
-        allFunctions.wordOftheDay((data) => {
-            console.log('\x1b[93m Word of the Day - Dictionary: \x1b[0m');
+        allFunctions.wordOftheDay().then((data) => {
+			data=JSON.parse(data);
+			console.log('\x1b[93m Word of the Day - Dictionary: \x1b[0m');
             allFunctions.dictionary(data.word);
         })
     } else if (userArgslength == 1) {
@@ -49,4 +50,4 @@ var startDictionary = () => {
         printHelp();
     }
 };
-startDictionary();		 
+startDictionary();
