@@ -7,26 +7,9 @@ function playgame() {
     var game_word_synonyms;
     var game_word_definitions = new Array();
     var hint = [];
-    ApiFunctions.randomWord().then((data) => {
-data = JSON.parse(data);
-        game_word = data.word.replace(" ", "%20");
-        ApiFunctions.definitions(game_word).then( (data) => {
-data = JSON.parse(data);
-            if (data.length >= 1) {
-                for (var index in data) {
-                    game_word_definitions[index] = data[index].text;
-                    hint.push({
-                        type: 'definition',
-                        value: data[index].text
-                    })
-                }
-            } else {
-                console.log('\x1b[31m Error occured in the process.\nProcess will exit now. \x1b[0m');
-                process.exit();
-            }
-            ApiFunctions.synonyms(game_word).then( (data) => {
-data = JSON.parse(data);
-                var hasSynonyms = false;
+	var hasSynonyms = false;
+	ApiFunctions.synonyms(game_word).then( (data) => {
+				data = JSON.parse(data);
                 if (data.length >= 1) {
                     hasSynonyms = true;
                     game_word_synonyms = data[0].words;
@@ -50,6 +33,25 @@ data = JSON.parse(data);
                     }
 
                 }
+		 });
+    ApiFunctions.randomWord().then((data) => {
+		data = JSON.parse(data);
+        game_word = data.word.replace(" ", "%20");
+        ApiFunctions.definitions(game_word).then( (data) => {
+			data = JSON.parse(data);
+            if (data.length >= 1) {
+                for (var index in data) {
+                    game_word_definitions[index] = data[index].text;
+                    hint.push({
+                        type: 'definition',
+                        value: data[index].text
+                    })
+                }
+            } else {
+                console.log('\x1b[31m Error occured in the process.\nProcess will exit now. \x1b[0m');
+                process.exit();
+            }
+            
                 const rl = readline.createInterface({
                     input: process.stdin,
                     output: process.stdout
@@ -63,20 +65,23 @@ data = JSON.parse(data);
                     var correctAnswer = false;
                     if (hasSynonyms) {
                         for (var index in game_word_synonyms) {
-                            if (`${input}` == game_word_synonyms[index]) {
+                            if (`${input}` === game_word_synonyms[index]) {
                                 console.log('Congratulations! You have entered correct synonym for the word "' + game_word + '"');
                                 rl.close();
                                 correctAnswer = true;
                                 score = score + 10;
                                 console.log('\x1b[93m Your score is "' + score + '": \x1b[0m');
+								playgame();
                             }
                         }
                     }
                     if (`${input}` === game_word) {
                         console.log('Congratulations! You have entered correct word.');
+						correctAnswer = true;
                         score = score + 10;
                         console.log('\x1b[93m Your score is "' + score + '": \x1b[0m');
                         rl.close();
+						playgame();
                     } else {
                         if (`${input}` == '3') {
                             rl.close();
@@ -145,7 +150,6 @@ data = JSON.parse(data);
                 });
             });
         });
-    });
 }
 
 var printGameRetryText = () => {
@@ -156,6 +160,7 @@ var printGameRetryText = () => {
     console.log('\t2. Hint');
     console.log('\t3. Skip');
 };
+
 module.exports = {
     playgame
 };
