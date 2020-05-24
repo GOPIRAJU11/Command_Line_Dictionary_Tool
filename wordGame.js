@@ -114,8 +114,7 @@ function playgame() {
                             if (gameWordValues[randomNumber].type == 'synonym') {
                                 for (var index in game_word_synonyms) {
                                     if (gameWordValues[randomNumber].value == game_word_synonyms[index]) {
-                                        game_word_synonyms.splice(index, 1);
-                                        console.log('synonyms : ' + game_word_synonyms);
+                                        game_word_synonyms.splice(index, 1);                            
                                     }
                                 }
                             }
