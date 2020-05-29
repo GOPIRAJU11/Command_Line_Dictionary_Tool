@@ -7,34 +7,35 @@ const wordApi = baseApi + 'word.json/';
 const wordsApi = baseApi + 'words.json/';
 const api_key = '9e6759e60c71e91458f697bb4773fd5f70c151a3ac21a78745ef83c129217037abbf20f9d7c78a87ce47b962ef973ff938ba32676e4e6623d162cd2c35ce47c7e20ab9c12733be141662f80ce5fe3395';
 const readline = require('readline');
-function apiRequestPromises (url) {
-const promiseToken = new Promise((resolve,reject) =>{
-http.get(url, (res) => {
-var rawData = '';
-    res.on('data', (chunk) => rawData += chunk);
-    res.on('end', () =>{ resolve(rawData);});
 
+function apiRequestPromises(url) {
+    const promiseToken = new Promise((resolve, reject) => {
+        http.get(url, (res) => {
+            var rawData = '';
+            res.on('data', (chunk) => rawData += chunk);
+            res.on('end', () => {
+                resolve(rawData);
+            });
+
+        });
     });
-});
-  return promiseToken;
+    return promiseToken;
 }
-function printDefinitions (word) {
-const promiseToken = definitions(word);
-promiseToken.then((promisedData) =>
-{
-if(promisedData.length >= 1){
-      console.log('\x1b[93m The definitions for the word "'+word+'": \x1b[0m');
-promisedData=JSON.parse(promisedData);
-      for(var index in promisedData)
-{
-        console.log((parseInt(index)+1) +  '\t' + (promisedData[index].text));
-      }
-      }
-else{
-      console.log('\x1b[31m No definitions found for the word "'+word+'" \x1b[0m');
-    }
-})
-.catch();
+
+function printDefinitions(word) {
+    const promiseToken = definitions(word);
+    promiseToken.then((promisedData) => {
+            if (promisedData.length >= 1) {
+                console.log('\x1b[93m The definitions for the word "' + word + '": \x1b[0m');
+                promisedData = JSON.parse(promisedData);
+                for (var index in promisedData) {
+                    console.log((parseInt(index) + 1) + '\t' + (promisedData[index].text));
+                }
+            } else {
+                console.log('\x1b[31m No definitions found for the word "' + word + '" \x1b[0m');
+            }
+        })
+        .catch();
 }
 
 var definitions = (word) => {
@@ -52,8 +53,8 @@ var synonyms = (word) => {
 };
 
 var printSynonyms = (word) => {
-    synonyms(word).then( (data) => {
-data = JSON.parse(data)
+    synonyms(word).then((data) => {
+        data = JSON.parse(data)
         if (data.length == 1) {
             var words = data[0].words;
             console.log('\x1b[93m The synonyms for the word "' + word + '": \x1b[0m');
@@ -69,12 +70,12 @@ var antonyms = (word) => {
     var url = '';
     api = word + '/relatedWords?api_key=' + api_key;
     url = wordApi + api;
-return apiRequestPromises(url);
+    return apiRequestPromises(url);
 }
 
 var printAntonyms = (word) => {
-    antonyms(word).then( (data) => {
-data = JSON.parse(data)
+    antonyms(word).then((data) => {
+        data = JSON.parse(data)
         if (data.length == 2) {
             var words1 = data[0].words;
             console.log('\x1b[93m The antonyms for the word "' + word + '": \x1b[0m');
@@ -86,21 +87,24 @@ data = JSON.parse(data)
         }
     });
 };
-function examples (word) {
-const promiseToken = apiRequestPromises(wordApi+word+'/examples?api_key='+api_key);
-promiseToken.then((promisedData) =>
-{
-if(promisedData.length >= 1){
-      console.log('\x1b[93m The examples for the word "'+word+'": \x1b[0m');
-      for(var index in promisedData)
-{
-        console.log((parseInt(index)+1) +  '\t' + JSON.parse(promisedData).examples[index].text);
-      }
-      }
-else{
-      console.log('\x1b[31m No examples found for the word "'+word+'" \x1b[0m');
-    }
-});
+
+function examples(word) {
+    const promiseToken = apiRequestPromises(wordApi + word + '/examples?api_key=' + api_key);
+    promiseToken.then((promisedData) => {
+        if (promisedData.length >= 1) {
+            console.log('\x1b[93m The examples for the word "' + word + '": \x1b[0m');
+            promisedData = JSON.parse(promisedData);
+            promisedData = promisedData.examples;
+            for (var index in promisedData) {
+                console.log((parseInt(index) + 1) + '\t' + promisedData[index].text);
+            }
+        } else {
+            console.log('\x1b[31m No examples found for the word "' + word + '" \x1b[0m');
+        }
+    }).catch(error => {
+        console.log(error);
+
+    });
 }
 
 var dictionary = (word) => {
@@ -108,6 +112,10 @@ var dictionary = (word) => {
     printSynonyms(word);
     printAntonyms(word);
     examples(word);
+    let promise = new Promise((resolve, reject) => {
+        resolve(123);
+    });
+    return promise;
 };
 
 var isEmpty = (obj) => {
@@ -118,7 +126,7 @@ var wordOftheDay = () => {
     var url = '';
     api = 'randomWord?api_key=' + api_key;
     url = wordsApi + api;
-	return apiRequestPromises(url);
+    return apiRequestPromises(url);
 };
 
 function randomWord() {
